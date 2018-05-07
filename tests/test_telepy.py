@@ -1,4 +1,3 @@
-import pytest
 from telepy import telepy
 
 def test_pizdest():
