@@ -1,25 +1,35 @@
 sudo: False
 
 language: python
+  - python: 2.7
+  - python: 3.5
+  - python: 3.6
 
-matrix:
-  include:
-    - python: 2.7
-    - python: 3.5
-    - python: 3.6
-
+before_install:
+  - pip install -e .
 install:
-  # Install conda
-  - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
-  - bash miniconda.sh -b -p $HOME/miniconda
-  - export PATH="$HOME/miniconda/bin:$PATH"
-  - conda config --set always_yes yes --set changeps1 no
-  - conda update conda
-
-  - python setup.py install
-
+  # Install from PyPi
+  # Install from Conda
+  # - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
+  # - bash miniconda.sh -b -p $HOME/miniconda
+  # - export PATH="$HOME/miniconda/bin:$PATH"
+  # - conda config --set always_yes yes --set changeps1 no
+  # - conda update conda
+  # - python setup.py install
+  - pip install -r requirements.txt
 script:
-  - py.test --doctest-modules telepy
+  - cd src/
+  # Beautify tot PEP8
+  - autopep8 --in-place --aggressive --aggressive telepy.py
+  
+  # Coverage
+  - coverage run telepy.py
+  - coverage xml
+  - python-codacy-coverage -r coverage.xml 
 
+  - cd ..
+
+  # Tests
+  - pytest
 notifications:
   email: false

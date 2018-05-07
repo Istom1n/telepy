@@ -1,3 +1,7 @@
 .coverage
 coverage.xml
 .DS_Store
+.pytest_cache/
+tests/__pycache__/
+telepy/__pycache__/
+telepy.egg-info/

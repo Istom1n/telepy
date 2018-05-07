@@ -11,17 +11,17 @@ import os
 import sys
 from ctypes import (CDLL, CFUNCTYPE, c_char_p, c_double, c_int, c_longlong,
                     c_void_p)
-from ctypes.util import find_library
 
 
 class Telepy:
     # Check on loaded DLL
     _tdjson = None
-    
+
     def __init__(self):
         """Return loaded tdlib instance."""
         if Telepy._tdjson is None:
-            tdjson_path = os.path.dirname(os.path.realpath(__file__)) + "/lib/amd64_macos.dylib"
+            tdjson_path = os.path.dirname(
+                os.path.realpath(__file__)) + "/lib/amd64_macos.dylib"
 
             if tdjson_path is None:
                 print("Can't find tdjson library")
@@ -31,16 +31,15 @@ class Telepy:
             self.init_c_function()
 
         print(Telepy.td_json_client_destroy)
-        
+
         Telepy.td_set_log_verbosity_level(2)
         Telepy.td_set_log_fatal_error_callback(
             Telepy.fatal_error_callback_type(
                 Telepy.on_fatal_error_callback
-                ))
+            ))
 
         # Create client
         self.client = Telepy.td_json_client_create()
-
 
     @classmethod
     def init_c_function(cls):
@@ -81,8 +80,8 @@ class Telepy:
 
         cls.td_set_log_fatal_error_callback = cls._tdjson.td_set_log_fatal_error_callback
         cls.td_set_log_fatal_error_callback.restype = None
-        cls.td_set_log_fatal_error_callback.argtypes = [cls.fatal_error_callback_type]
-
+        cls.td_set_log_fatal_error_callback.argtypes = [
+            cls.fatal_error_callback_type]
 
     def download_library(self):
         """Download library binari of TDLib for current OS."""
@@ -93,8 +92,8 @@ class Telepy:
         """Callback function for log with desired parameters."""
         print('TDLib fatal error: ', error_message)
 
-
     # Wrappers for client usage
+
     def td_send(self, query):
         query = json.dumps(query).encode('utf-8')
         Telepy.td_json_client_send(self.client, query)
@@ -116,10 +115,18 @@ class Telepy:
 
     def test(self):
         # Testing TDLib execute method
-        print(self.td_execute({'@type': 'getTextEntities', 'text': '@telegram /test_command https://telegram.org telegram.me', '@extra': ['5', 7.0]}))
+        print(
+            self.td_execute(
+                {
+                    '@type': 'getTextEntities',
+                    'text': '@telegram /test_command https://telegram.org telegram.me',
+                    '@extra': [
+                        '5',
+                        7.0]}))
 
         # Testing TDLib send method
-        print(self.td_send({'@type': 'getAuthorizationState', '@extra': 1.01234}))
+        print(self.td_send(
+            {'@type': 'getAuthorizationState', '@extra': 1.01234}))
 
     def __del__(self):
         """Destroy client when it is closed and isn't needed anymore."""

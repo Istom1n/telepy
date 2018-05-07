@@ -1,2 +1,4 @@
-# __all__ = ['submodule1', 'submodule2']
+from telepy import Telepy
+
+__all__ = ['Telepy']
 __version__ = '0.0.1'

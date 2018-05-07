@@ -15,4 +15,6 @@ setup(name='telepy',
       install_requires=open('requirements.txt').read().strip().split('\n'),
       long_description=(open('README.md').read() if os.path.exists('README.md')
                         else ''),
+    #   setup_requires=['pytest-runner'],
+    #   tests_require=['pytest'],
       zip_safe=False)
