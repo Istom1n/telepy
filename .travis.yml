@@ -16,15 +16,10 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update conda
 
-  # Install dependencies
-  - conda create -n test python=$TRAVIS_PYTHON_VERSION pytest heapdict
-  - source activate test
-  - conda install -c conda-forge python-lmdb psutil
-
   - python setup.py install
 
 script:
-  - py.test --doctest-modules zict
+  - py.test --doctest-modules telepy
 
 notifications:
   email: false

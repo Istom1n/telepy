@@ -7,8 +7,10 @@ __email__ = "istom1n@pm.me"
 __status__ = "Development"
 
 import json
+import os
 import sys
-from ctypes import c_void_p, c_char_p, c_double, c_longlong, c_int, CFUNCTYPE, CDLL
+from ctypes import (CDLL, CFUNCTYPE, c_char_p, c_double, c_int, c_longlong,
+                    c_void_p)
 from ctypes.util import find_library
 
 
@@ -19,7 +21,7 @@ class Telepy:
     def __init__(self):
         """Return loaded tdlib instance."""
         if Telepy._tdjson is None:
-            tdjson_path = "lib/libtdjson.dylib"
+            tdjson_path = os.path.dirname(os.path.realpath(__file__)) + "/lib/amd64_macos.dylib"
 
             if tdjson_path is None:
                 print("Can't find tdjson library")
@@ -27,6 +29,8 @@ class Telepy:
 
             Telepy._tdjson = CDLL(tdjson_path)
             self.init_c_function()
+
+        print(Telepy.td_json_client_destroy)
         
         Telepy.td_set_log_verbosity_level(2)
         Telepy.td_set_log_fatal_error_callback(
@@ -80,7 +84,7 @@ class Telepy:
         cls.td_set_log_fatal_error_callback.argtypes = [cls.fatal_error_callback_type]
 
 
-    def download_library():
+    def download_library(self):
         """Download library binari of TDLib for current OS."""
         pass
 
@@ -115,7 +119,7 @@ class Telepy:
         print(self.td_execute({'@type': 'getTextEntities', 'text': '@telegram /test_command https://telegram.org telegram.me', '@extra': ['5', 7.0]}))
 
         # Testing TDLib send method
-        # print(self.td_send({'@type': 'getAuthorizationState', '@extra': 1.01234}))
+        print(self.td_send({'@type': 'getAuthorizationState', '@extra': 1.01234}))
 
     def __del__(self):
         """Destroy client when it is closed and isn't needed anymore."""
@@ -125,17 +129,13 @@ class Telepy:
 telepy = Telepy()
 
 # Main events cycle
-while True:
+for i in range(5):
     event = telepy.td_receive()
 
-    if event and event['@type'] is 'updateAuthorizationState' and
-        event['authorization_state']['@type'] is 'authorizationStateClosed':
-        # If client is closed, we need to destroy it and create new client
-        
+    # If client is closed, we need to destroy it and create new client
+    if event and event['@type'] is 'updateAuthorizationState' and event['authorization_state']['@type'] is 'authorizationStateClosed':
         break
 
     # Handle an incoming update or an answer to a previously sent request
     print(event)
     sys.stdout.flush()
-
-
