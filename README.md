@@ -1,6 +1,6 @@
 ## Telepy — Python wrapper for TDLib
 [![Latest Release](https://pypip.in/version/telepy/badge.svg)](https://pypi.python.org/pypi/telepy/) [![Build Status](https://travis-ci.org/Ivan-Istomin/telepy.svg?branch=master)](https://travis-ci.org/Ivan-Istomin/telepy)  
-Telepy is incredible, ultra-fast wrapper for [TDLib](https://core.telegram.org/tdlib), a cross-platform, fully functional Telegram client.
+Telepy is incredible, ultra-fast, PEP8-compliant wrapper for [TDLib](https://core.telegram.org/tdlib), a cross-platform, fully functional Telegram client.
 
 ![](assets/rex.png)
 
