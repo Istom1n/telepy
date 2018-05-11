@@ -10,7 +10,7 @@ setup(name='telepy',
       maintainer='Ivan Istomin',
       maintainer_email='istom1n@pm.me',
       license='MIT',
-      keywords=['wrapper,telegram,messaging,api'],
+      keywords=['wrapper telegram messaging api'],
       packages=find_packages(exclude=['tests']),
       install_requires=open('requirements.txt').read().strip().split('\n'),
       long_description=(open('README.md').read() if os.path.exists('README.md')
